@@ -38,5 +38,5 @@ Contributions are welcome! Feel free to submit pull requests or open issues for 
 
 ## License
 
-You can choose the license that best suits your project. Common open-source licenses include the MIT License, Apache License 2.0, and GPL.
+GPLv3
 
