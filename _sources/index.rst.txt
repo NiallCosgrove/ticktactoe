@@ -1,0 +1,14 @@
+Project Documentation
+======================
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   player
+   game_engine
+   play_game
+   random_ai
+   generate_rst
+   human_player
+   minimax_ai

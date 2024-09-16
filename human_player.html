@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Human_player Module &#8212; TickTacToe  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=c058f7c8" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Minimax_ai Module" href="minimax_ai.html" />
+    <link rel="prev" title="Generate_rst Module" href="generate_rst.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-human_player">
+<span id="human-player-module"></span><h1>Human_player Module<a class="headerlink" href="#module-human_player" title="Link to this heading">¶</a></h1>
+<p>Human player module.</p>
+<p>This module contains the HumanPlayer class, which represents a human player interacting via input.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="human_player.HumanPlayer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">human_player.</span></span><span class="sig-name descname"><span class="pre">HumanPlayer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">symbol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#human_player.HumanPlayer" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="player.html#player.Player" title="player.Player"><code class="xref py py-class docutils literal notranslate"><span class="pre">Player</span></code></a></p>
+<p>A human player that provides moves based on input (e.g., mouse clicks).</p>
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading">¶</a></h2>
+<dl class="simple">
+<dt>symbol<span class="classifier">str</span></dt><dd><p>The symbol representing the player (‘X’ or ‘O’).</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="human_player.HumanPlayer.get_move">
+<span class="sig-name descname"><span class="pre">get_move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">square_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#human_player.HumanPlayer.get_move" title="Link to this definition">¶</a></dt>
+<dd><p>Get the next move from the human player based on input position.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pos</strong> – Tuple (x, y) representing the input position (e.g., mouse click).</p></li>
+<li><p><strong>square_size</strong> – Size of each square on the board.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Tuple (row, col) representing the move.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">TickTacToe</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="player.html">Player Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="game_engine.html">Game_engine Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="play_game.html">Play_game Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="random_ai.html">Random_ai Module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="generate_rst.html">Generate_rst Module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Human_player Module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#human_player.HumanPlayer"><code class="docutils literal notranslate"><span class="pre">HumanPlayer</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="minimax_ai.html">Minimax_ai Module</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="generate_rst.html" title="previous chapter">Generate_rst Module</a></li>
+      <li>Next: <a href="minimax_ai.html" title="next chapter">Minimax_ai Module</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.0.2</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="_sources/human_player.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
