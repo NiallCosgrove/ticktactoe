@@ -1,19 +1,14 @@
-.. ticktactoe documentation master file, created by
-   sphinx-quickstart on Mon Sep 16 15:34:46 2024.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-ticktactoe documentation
-========================
-
-Add your content using ``reStructuredText`` syntax. See the
-`reStructuredText <https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html>`_
-documentation for details.
-
+Project Documentation
+======================
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-.. include:: ../README.md
-.. include:: ../INSTALL.md
+   game_engine
+   generate_rst
+   human_player
+   minimax_ai
+   player
+   play_game
+   random_ai
