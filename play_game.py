@@ -12,9 +12,13 @@ from minimax_ai import MinimaxAI
 from random_ai import RandomAI
 
 if __name__ == "__main__":
+    """
+    Main entry point for setting up and starting the Tic-Tac-Toe game.
+    Initializes players and the game engine with a dynamic grid size.
+    """
     # Set up players
-    player1 = MinimaxAI('X', max_depth=100, time_limit=5, name='Player X')
-    player2 = MinimaxAI('O', max_depth=100, time_limit=10, name='Player O')
+    player1 = MinimaxAI('X', max_depth=5, time_limit=2, name='Player X')
+    player2 = MinimaxAI('O', max_depth=10, time_limit=4, name='Player O')
     # player2 = HumanPlayer('O')  # Uncomment to play against a human player
 
     # Initialize game engine with dynamic grid size
@@ -23,3 +27,5 @@ if __name__ == "__main__":
     # Run the game (with optional profiling)
     # cProfile.run('game.run()', 'profiling_results.prof')
     game.run()
+
+

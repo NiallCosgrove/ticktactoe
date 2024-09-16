@@ -10,8 +10,14 @@ from player import Player
 class RandomAI(Player):
     """
     An AI player that selects moves randomly from the available options.
+
+    Attributes
+    ----------
+    symbol : str
+        The symbol representing the player ('X' or 'O').
     """
-    def __init__(self, symbol):
+
+    def __init__(self, symbol: str):
         """
         Initialize the RandomAI player.
 
@@ -19,7 +25,7 @@ class RandomAI(Player):
         """
         super().__init__(symbol)
 
-    def get_move(self, board, _):
+    def get_move(self, board: list[list[int]], _: int) -> tuple[int, int] or None:
         """
         Get the next move for the AI player.
 
@@ -27,7 +33,6 @@ class RandomAI(Player):
         :param _: Unused parameter (placeholder for square size or other info).
         :return: Tuple (row, col) representing the move, or None if no moves are available.
         """
-        # Collect all available squares (those that are 0, meaning empty)
         available_moves = [
             (row, col)
             for row in range(len(board))
@@ -35,8 +40,8 @@ class RandomAI(Player):
             if board[row][col] == 0
         ]
 
-        # Randomly choose one of the available moves
         if available_moves:
             return random.choice(available_moves)
         else:
             return None  # No available moves
+

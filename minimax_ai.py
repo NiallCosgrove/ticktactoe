@@ -15,13 +15,24 @@ from numba import njit
 class MinimaxAI(Player):
     """
     An AI player that uses the Minimax algorithm with alpha-beta pruning and iterative deepening.
+
+    Attributes
+    ----------
+    symbol : str
+        The symbol representing the player ('X' or 'O').
+    max_depth : int, optional
+        Maximum depth for the Minimax search (None for unlimited).
+    time_limit : float, optional
+        Time limit in seconds for iterative deepening.
+    name : str
+        Identifier name for the AI instance (useful for logging and debugging).
     """
 
-    def __init__(self, symbol, max_depth=None, time_limit=None, name='AI'):
+    def __init__(self, symbol: str, max_depth: int = None, time_limit: float = None, name: str = 'AI'):
         """
         Initialize the Minimax AI player with iterative deepening and advanced reporting.
 
-        :param symbol: 'X' or 'O'.
+        :param symbol: The symbol representing the player ('X' or 'O').
         :param max_depth: Maximum depth for the Minimax search (None for unlimited).
         :param time_limit: Time limit in seconds for iterative deepening.
         :param name: Identifier name for the AI instance (useful for multiple AIs).
@@ -44,7 +55,7 @@ class MinimaxAI(Player):
             handler.setFormatter(formatter)
             self.logger.addHandler(handler)
 
-    def get_move(self, board, win_length):
+    def get_move(self, board: np.ndarray, win_length: int) -> tuple[int, int]:
         """
         Determine the best move using iterative deepening with the Minimax algorithm.
 
@@ -61,13 +72,11 @@ class MinimaxAI(Player):
         start_time = time.time()
         time_limit = self.time_limit if self.time_limit is not None else float('inf')
 
-        # Make a copy of the board to avoid modifying the original
         board_copy = board.copy()
 
-        # Step 1: Check for immediate winning moves
         winning_move = self.find_immediate_win(board_copy)
         if winning_move:
-            self.nodes_searched += 1  # Increment node counter
+            self.nodes_searched += 1
             elapsed_time = int((time.time() - start_time) * 1000)
             pv_moves = f'({winning_move[0]},{winning_move[1]})'
             nps = int(self.nodes_searched / ((elapsed_time / 1000) or 1))
@@ -75,10 +84,9 @@ class MinimaxAI(Player):
                 f"info depth 1 score 10000 nodes {self.nodes_searched} time {elapsed_time} nps {nps} pv {pv_moves}")
             return winning_move
 
-        # Step 2: Check for immediate blocks
         blocking_move = self.find_immediate_block(board_copy)
         if blocking_move:
-            self.nodes_searched += 1  # Increment node counter
+            self.nodes_searched += 1
             elapsed_time = int((time.time() - start_time) * 1000)
             pv_moves = f'({blocking_move[0]},{blocking_move[1]})'
             nps = int(self.nodes_searched / ((elapsed_time / 1000) or 1))
@@ -89,7 +97,7 @@ class MinimaxAI(Player):
         best_score = -math.inf
         best_move = None
         pv_sequence = []
-        total_nodes_searched = 0  # To accumulate nodes over all depths
+        total_nodes_searched = 0
 
         depth = 1
         while True:
@@ -99,12 +107,10 @@ class MinimaxAI(Player):
             if self.max_depth is not None and depth > self.max_depth:
                 break
 
-            # Reset node counter for each depth
             self.nodes_searched = 0
-            self.transposition_table.clear()  # Clear transposition table for each depth
+            self.transposition_table.clear()
 
             possible_moves = self.get_possible_moves(board_copy)
-            # Order moves based on heuristic evaluation
             ordered_moves = sorted(
                 possible_moves, key=lambda move: self.evaluate_move(board_copy, move), reverse=True)
 
@@ -124,24 +130,20 @@ class MinimaxAI(Player):
                         current_best_score = eval_score
                         current_best_move = move
                         current_pv_sequence = [move] + pv
-                    # Check for time limit during search
                     if time.time() - start_time >= time_limit:
                         raise TimeoutError
-                # Update best move found at this depth
                 if current_best_move is not None:
                     best_score = current_best_score
                     best_move = current_best_move
                     pv_sequence = current_pv_sequence
                     self.max_depth_reached = depth
             except TimeoutError:
-                # Time limit exceeded
                 break
 
-            total_nodes_searched += self.nodes_searched  # Accumulate total nodes searched
+            total_nodes_searched += self.nodes_searched
 
-            # Reporting the AI's decision at the current depth
-            elapsed_time = int((time.time() - start_time) * 1000)  # Time in milliseconds
-            nps = int(total_nodes_searched / ((elapsed_time / 1000) or 1))  # Nodes per second
+            elapsed_time = int((time.time() - start_time) * 1000)
+            nps = int(total_nodes_searched / ((elapsed_time / 1000) or 1))
             pv_moves = ' '.join([f'({r},{c})' for r, c in pv_sequence])
             self.logger.info(
                 f"info depth {depth} score {best_score} nodes {total_nodes_searched} time {elapsed_time} nps {nps} pv {pv_moves}")
@@ -155,7 +157,8 @@ class MinimaxAI(Player):
 
         return best_move
 
-    def minimax(self, board, depth, max_depth, is_maximizing, alpha, beta, start_time, time_limit):
+    def minimax(self, board: np.ndarray, depth: int, max_depth: int, is_maximizing: bool,
+                alpha: float, beta: float, start_time: float, time_limit: float) -> tuple[int, list]:
         """
         Recursive Minimax algorithm with alpha-beta pruning and transposition tables.
 
@@ -169,11 +172,10 @@ class MinimaxAI(Player):
         :param time_limit: Time limit in seconds for the entire move computation.
         :return: Tuple (score, pv_sequence).
         """
-        # Check for time limit
         if time.time() - start_time >= time_limit:
             raise TimeoutError
 
-        self.nodes_searched += 1  # Increment node counter
+        self.nodes_searched += 1
 
         winner = self.check_winner(board)
         if winner != 0:
@@ -188,12 +190,10 @@ class MinimaxAI(Player):
             return 0, []
 
         board_key = self.board_to_key(board)
-        # Check if the board state is already evaluated
         if board_key in self.transposition_table:
             return self.transposition_table[board_key]
 
         possible_moves = self.get_possible_moves(board)
-        # Order moves based on heuristic evaluation
         ordered_moves = sorted(
             possible_moves, key=lambda move: self.evaluate_move(board, move), reverse=is_maximizing)
 
@@ -213,7 +213,7 @@ class MinimaxAI(Player):
                     best_pv = [move] + pv
                 alpha = max(alpha, eval_score)
                 if beta <= alpha:
-                    break  # Beta cut-off
+                    break
             self.transposition_table[board_key] = (max_eval, best_pv)
             return max_eval, best_pv
         else:
@@ -233,11 +233,11 @@ class MinimaxAI(Player):
                     best_pv = [move] + pv
                 beta = min(beta, eval_score)
                 if beta <= alpha:
-                    break  # Alpha cut-off
+                    break
             self.transposition_table[board_key] = (min_eval, best_pv)
             return min_eval, best_pv
 
-    def find_immediate_win(self, board):
+    def find_immediate_win(self, board: np.ndarray) -> tuple[int, int] or None:
         """
         Check for any immediate winning move for the AI.
 
@@ -254,7 +254,7 @@ class MinimaxAI(Player):
             board[row, col] = 0
         return None
 
-    def find_immediate_block(self, board):
+    def find_immediate_block(self, board: np.ndarray) -> tuple[int, int] or None:
         """
         Check for any immediate winning move for the opponent and block it.
 
@@ -272,7 +272,7 @@ class MinimaxAI(Player):
             board[row, col] = 0
         return None
 
-    def get_possible_moves(self, board):
+    def get_possible_moves(self, board: np.ndarray) -> list[tuple[int, int]]:
         """
         Generate all possible moves (empty squares) on the board.
 
@@ -281,7 +281,7 @@ class MinimaxAI(Player):
         """
         return list(zip(*np.where(board == 0)))
 
-    def evaluate_move(self, board, move):
+    def evaluate_move(self, board: np.ndarray, move: tuple[int, int]) -> int:
         """
         Heuristic evaluation of a move to assist in move ordering.
 
@@ -291,25 +291,22 @@ class MinimaxAI(Player):
         """
         row, col = move
         center = self.board_size // 2
-        # Base score: prefer center positions
         score = (self.board_size - (abs(row - center) + abs(col - center)))
 
-        # Simulate the move for AI
         board[row, col] = self.symbol_value
         if self.check_winner(board) == self.symbol_value:
-            score += 1000  # Winning move
+            score += 1000
         board[row, col] = 0
 
-        # Simulate the move for opponent to check blocking
         opponent_value = -self.symbol_value
         board[row, col] = opponent_value
         if self.check_winner(board) == opponent_value:
-            score += 500  # Blocking opponent's win
+            score += 500
         board[row, col] = 0
 
         return score
 
-    def evaluate_board(self, board):
+    def evaluate_board(self, board: np.ndarray) -> int:
         """
         Evaluate the board from the perspective of the AI.
 
@@ -318,14 +315,13 @@ class MinimaxAI(Player):
         """
         score = 0
 
-        # Evaluate rows, columns, and diagonals
         lines = self.get_all_lines(board)
         for line in lines:
             score += self.evaluate_line(line)
 
         return score
 
-    def get_all_lines(self, board):
+    def get_all_lines(self, board: np.ndarray) -> list[list[int]]:
         """
         Extract all possible lines (rows, columns, diagonals) from the board.
 
@@ -334,18 +330,15 @@ class MinimaxAI(Player):
         """
         lines = []
 
-        # Rows
         lines.extend(board.tolist())
 
-        # Columns
         lines.extend(board.T.tolist())
 
-        # Diagonals
         lines.extend(self.get_diagonals(board))
 
         return lines
 
-    def get_diagonals(self, board):
+    def get_diagonals(self, board: np.ndarray) -> list[list[int]]:
         """
         Extract all diagonals of length >= WIN_LENGTH from the board.
 
@@ -354,13 +347,11 @@ class MinimaxAI(Player):
         """
         diagonals = []
 
-        # Descending diagonals (top-left to bottom-right)
         for offset in range(-(self.board_size - self.WIN_LENGTH), self.board_size - self.WIN_LENGTH + 1):
             diag = board.diagonal(offset).tolist()
             if len(diag) >= self.WIN_LENGTH:
                 diagonals.append(diag)
 
-        # Ascending diagonals (bottom-left to top-right)
         flipped_board = np.flipud(board)
         for offset in range(-(self.board_size - self.WIN_LENGTH), self.board_size - self.WIN_LENGTH + 1):
             diag = flipped_board.diagonal(offset).tolist()
@@ -369,7 +360,7 @@ class MinimaxAI(Player):
 
         return diagonals
 
-    def evaluate_line(self, line):
+    def evaluate_line(self, line: list[int]) -> int:
         """
         Evaluate a single line for heuristic scoring.
 
@@ -385,7 +376,7 @@ class MinimaxAI(Player):
 
         return score
 
-    def evaluate_window(self, window):
+    def evaluate_window(self, window: list[int]) -> int:
         """
         Evaluate a window of WIN_LENGTH cells.
 
@@ -403,7 +394,7 @@ class MinimaxAI(Player):
 
         return score
 
-    def line_score(self, count):
+    def line_score(self, count: int) -> int:
         """
         Assign a score based on the number of symbols in a line.
 
@@ -411,7 +402,7 @@ class MinimaxAI(Player):
         :return: Heuristic score.
         """
         if count == self.WIN_LENGTH:
-            return 10000  # Winning line
+            return 10000
         elif count == self.WIN_LENGTH - 1:
             return 1000
         elif count == self.WIN_LENGTH - 2:
@@ -421,14 +412,13 @@ class MinimaxAI(Player):
         else:
             return 1
 
-    def check_winner(self, board):
+    def check_winner(self, board: np.ndarray) -> int:
         """
         Check if there is a winner on the board.
 
         :param board: 2D NumPy array representing the current board state.
         :return: 1 if Player X wins, -1 if Player O wins, 0 otherwise.
         """
-        # Directions: right, down, down-right, up-right
         directions = [(0, 1), (1, 0), (1, 1), (-1, 1)]
         for row in range(self.board_size):
             for col in range(self.board_size):
@@ -442,7 +432,8 @@ class MinimaxAI(Player):
 
     @staticmethod
     @njit
-    def check_direction(board, row, col, dx, dy, symbol, win_length):
+    def check_direction(board: np.ndarray, row: int, col: int, dx: int, dy: int,
+                        symbol: int, win_length: int) -> bool:
         """
         Check a specific direction for a win. Optimized with Numba.
 
@@ -464,7 +455,7 @@ class MinimaxAI(Player):
                 return False
         return True
 
-    def board_to_key(self, board):
+    def board_to_key(self, board: np.ndarray) -> bytes:
         """
         Convert the board to a hashable key for transposition table.
 
@@ -473,7 +464,7 @@ class MinimaxAI(Player):
         """
         return board.tobytes()
 
-    def is_draw(self, board):
+    def is_draw(self, board: np.ndarray) -> bool:
         """
         Check if the game is a draw.
 

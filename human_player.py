@@ -9,8 +9,14 @@ from player import Player
 class HumanPlayer(Player):
     """
     A human player that provides moves based on input (e.g., mouse clicks).
+
+    Attributes
+    ----------
+    symbol : str
+        The symbol representing the player ('X' or 'O').
     """
-    def __init__(self, symbol):
+
+    def __init__(self, symbol: str):
         """
         Initialize the HumanPlayer.
 
@@ -18,7 +24,7 @@ class HumanPlayer(Player):
         """
         super().__init__(symbol)
 
-    def get_move(self, pos, square_size):
+    def get_move(self, pos: tuple[int, int], square_size: int) -> tuple[int, int]:
         """
         Get the next move from the human player based on input position.
 
@@ -26,8 +32,9 @@ class HumanPlayer(Player):
         :param square_size: Size of each square on the board.
         :return: Tuple (row, col) representing the move.
         """
-        # Calculate the row and column based on input position
         x, y = pos
         row = y // square_size
         col = x // square_size
         return row, col
+
+
