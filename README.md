@@ -8,7 +8,7 @@ This is a Python implementation of a customizable Tic-Tac-Toe game engine suitab
 - **Custom Win Conditions**: Set the number of consecutive symbols needed to win.
 - **Human and AI Players**: Play against another human or various AI strategies (Random AI, Minimax AI).
 - **Extensible Architecture**: Easily add new AI strategies by extending the `Player` base class.
-- **Fully Documented code**: Using github pages to automatically produce docs
+- **Fully Documented code**: Using github pages to automatically produce docs at https://niallcosgrove.github.io/ticktactoe/
 
 ## Installation
 
